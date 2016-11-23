@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Matching Game</title>
+    <style>
+        img {
+            position: absolute;
+        }
+        div {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+        }
+        #rightSide {
+            left: 500px;
+            border-left: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+<h1>Matching Game</h1>
+<p id="instructions">Click on the extra shrek face on the left.</p>
+<div id="leftSide">
+</div>
+<div id="rightSide">
+</div>
+<script>
+    var numberOfFaces = 5;
+    var theLeftSide = document.getElementById("leftSide");
+    var theRightSide = document.getElementById("rightSide");
+    var theBody = document.getElementsByTagName("body")[0];
+
+    function generateFaces() {
+        while (theLeftSide.firstChild) {
+            theLeftSide.removeChild(theLeftSide.firstChild);
+        }
+        while (theRightSide.firstChild) {
+            theRightSide.removeChild(theRightSide.firstChild);
+        }
+        for (i = 0; i < numberOfFaces; ++ i) {
+            elem_img = document.createElement("img");
+            elem_img.src = "https://lh5.ggpht.com/lC6MzfZoekSrHwC4iC2Ie4VQfRTW4dcgfak0DgZMsBSsZTbNjvWH8gr9a-KIq0-7_Jyg=w100";
+            elem_img.style.top = Math.floor(Math.random() * 400) + "px";
+            elem_img.style.left = Math.floor(Math.random() * 400) + "px";
+            theLeftSide.appendChild(elem_img);
+        }
+
+        leftSideImages = theLeftSide.cloneNode(true);
+        leftSideImages.removeChild(leftSideImages.lastChild);
+        theRightSide.appendChild(leftSideImages);
+
+        theLeftSide.lastChild.onclick = function nextLevel(event){
+            event.stopPropagation();
+            numberOfFaces += 5;
+
+            generateFaces();
+        }
+    }
+    generateFaces();
+
+
+    theBody.onclick = function gameOver() {
+        alert("Game Over!");
+        theBody.onclick = null;
+        theLeftSide.lastElementChild.src = "http://i0.kym-cdn.com/entries/icons/square/000/000/091/cancer.png";
+        theLeftSide.lastElementChild.style.borderColor = "red";
+        document.getElementById("instructions").textContent = "you just got SHREKED!";
+        theLeftSide.lastChild.onclick = null;
+    }
+</script>
+</body>
+</html>
